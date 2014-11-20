@@ -58,14 +58,16 @@ public class MessageApi {
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     @ApiOperation(response = List.class, value = "get-messages", notes = "Retrieves the messages by a given person, optionally filtering by text content, and optionally retrieving also the messages from followed people")
     public List<Message> getMessages(@PathVariable String username,
-            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean includeFollowed) {
 
+        // REMOVED - I think the feature requet was to read ALL the messages of a user and it's followed users
+        // regardless of the privacy policy (all messages are public)
         // the user asking for the messages MUST be the same one that is authenticated
-        AuthenticationUtils.checkAuthenticatedUser(username);
+        // AuthenticationUtils.checkAuthenticatedUser(username);
 
         boolean includeFollowedPeopleMessages = includeFollowed != null ? includeFollowed : Boolean.FALSE;
 
-        return messageService.getUserMessages(username, searchTerm, includeFollowedPeopleMessages);
+        return messageService.getUserMessages(username, search, includeFollowedPeopleMessages);
     }
 }

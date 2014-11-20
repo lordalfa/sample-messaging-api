@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -51,18 +53,19 @@ public class UserApi {
         return userService.getFollowers(username);
     }
 
-    @RequestMapping(value = "/{username}/following", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}/follows", method = RequestMethod.GET)
     @ApiOperation(response = List.class, value = "get-following", notes = "Retrieves the usernames of the people the given user is following")
     public List<String> getFollowing(@PathVariable String username) {
         return userService.getFollowing(username);
     }
 
-    @RequestMapping(value = "/{username}/follow/{target}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{username}/follows/{target}", method = RequestMethod.POST)
     @ApiOperation(response = Void.class, value = "follow", notes = "Makes the source person follow the target person. Caller must be the source user for consistency.")
     @ApiResponses(value = {
         @ApiResponse(response = String.class, code = HttpServletResponse.SC_NOT_FOUND, message = "NOT FOUND  one or both the given users to link can't be found."),
         @ApiResponse(response = String.class, code = HttpServletResponse.SC_FORBIDDEN, message = "FORBIDDEN  the source user is not the one calling this API.")
     })
+    @ResponseStatus(HttpStatus.CREATED)
     public void follow(@PathVariable(value = "username") String source, @PathVariable String target) {
         // the user asking for the messages MUST be the same one that is authenticated
         AuthenticationUtils.checkAuthenticatedUser(source);
@@ -70,7 +73,7 @@ public class UserApi {
         userService.follow(source, target);
     }
 
-    @RequestMapping(value = "/{username}/follow/{target}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{username}/follows/{target}", method = RequestMethod.DELETE)
     @ApiOperation(response = Void.class, value = "unfollow", notes = "Makes the source person unfollow the target person")
     @ApiResponses(value = {
         @ApiResponse(response = String.class, code = HttpServletResponse.SC_NOT_FOUND, message = "NOT FOUND  one or both the given users to link can't be found."),
