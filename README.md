@@ -47,7 +47,7 @@ If you want to run without packaging, you can use the Spring Boot goals
   mvn spring-boot:run
 ```
 
-The application uses an H" in memory database, if you want to use a mysql database do this:
+The application uses an H2 in memory database, if you want to use a mysql database do this:
 ```
 java -jar target\TEChallenge-0.1.jar --spring.profiles.active=mysql --spring.datasource.url=jdbc:mysql://<yourhost>:<yourport>/<yourdbname> --spring.datasource.username=<username> --spring.datasource.password=<password>
 ```
@@ -59,7 +59,7 @@ This activates the mysql profile, forcing the database to be initialized using m
 In order to test the REST API, simply run the sample application and point your browser to your local [Tomcat](http://localhost:8080) 
 which is embedded in the sample application.
 
-there are a bounch of test users preloaded, each with their follower list set, and a few messages (usernames test1 to test4, password is 'password' for all)
+there are a bunch of test users preloaded, each with their follower list set, and a few messages (usernames test1 to test4, password is 'password' for all)
 
 You will see a customized Swagger dashboard with 3 API groups:
 
@@ -89,5 +89,7 @@ http://localhost:8080/rest/api/users/user1/follow/user2?api_token=<yourtoken>
 ```
 If you make this call using a token that doesn't belong to **user1** (the user being written) you will receive a *403 Forbidden* response.
 While reading the list of followers of another user is definitely possible.
+
+I felt like messages should be readable by anyone, not just the poster and the followers, so I removed the security check on the getMessage API that forced the logged user to ask for its own messages only.
 
 
