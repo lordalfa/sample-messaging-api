@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author davidvotino
  */
 @RestController
-@RequestMapping(value = ApiEndpoints.ACCESS_BASE_ENDPOINT)
+@RequestMapping(value = ApiEndpoints.ACCESS_BASE_ENDPOINT, produces = {"application/json", "application/xml"})
 @Api(position = 0, value = "Authentication API", description = "Unsecured API for managing accounts")
 public class AuthApi {
 

@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author davidvotino
  */
 @RestController
-@RequestMapping(ApiEndpoints.API_ENDPOINT_USERS)
+@RequestMapping(value = ApiEndpoints.API_ENDPOINT_USERS, produces = {"application/json", "application/xml"})
 @Api(position = 1, value = "User API", description = "Secured API for managing users follow list")
 public class UserApi {
 

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author davidvotino
  */
 @RestController
-@RequestMapping(ApiEndpoints.API_ENDPOINT_MESSAGES)
+@RequestMapping(value = ApiEndpoints.API_ENDPOINT_MESSAGES, produces = {"application/json", "application/xml"})
 @Api(position = 2, value = "Message API", description = "Secured API for managing user messages")
 public class MessageApi {
 
@@ -65,7 +65,6 @@ public class MessageApi {
         // regardless of the privacy policy (all messages are public)
         // the user asking for the messages MUST be the same one that is authenticated
         // AuthenticationUtils.checkAuthenticatedUser(username);
-
         boolean includeFollowedPeopleMessages = includeFollowed != null ? includeFollowed : Boolean.FALSE;
 
         return messageService.getUserMessages(username, search, includeFollowedPeopleMessages);
